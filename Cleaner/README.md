@@ -17,7 +17,7 @@ Important:
 ### Linux
 
 You need to have the Qt libraries installed. Then just run
-qmake Cleaner.pro && make
+```qmake Cleaner.pro && make```
 and you're done
 
 ### Windows
