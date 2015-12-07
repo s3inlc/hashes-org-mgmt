@@ -1,22 +1,22 @@
+/*
+ * Created 2015 by Sein Coray
+ *
+ * https://github.com/s3inlc/hashes-org-mgmt/tree/master/Cleaner
+ */
+
 #include "run.h"
 
-Run::Run(QString file){
+Run::Run(QString file, QString out, QString left){
     running = false;
     checkfile = file;
+    outfile = out;
+    leftfile = left;
 }
 
 void Run::run(){
     //do threading
     running = true;
     bool ok;
-    /*qDebug() << "Sort tested...";
-    system("sort -u tested.txt > tested.txt.new");
-    qDebug() << "Sort input...";
-    system(QString("sort -u " + checkfile + " > " + checkfile + ".new").toStdString().c_str());
-    qDebug() << "Merge files...";
-    system(QString("comm -13 tested.txt.new " + checkfile + ".new > " + checkfile).toStdString().c_str());
-    system(QString("mv " + checkfile + ".new " + checkfile).toStdString().c_str());
-    system("mv tested.txt.new tested.txt");*/
     qDebug() << "Start reading file...";
     QFile file(checkfile);
     file.open(QIODevice::ReadOnly);
@@ -53,7 +53,7 @@ void Run::run(){
 
     count = 0;
     file.close();
-    file.setFileName("complete.txt");
+    file.setFileName(leftfile);
     file.open(QIODevice::ReadOnly);
     QString line = file.readLine();
     QStringList found;
@@ -64,10 +64,10 @@ void Run::run(){
         if(count%10000 == 0){
             qDebug() << line << found.size() << foundcount;
         }
-        if(count%1000000 == 0){
-            QFile file("output_cpp_12.txt");
+        if(count%1000000 == 0){ //flush after some progress
+            QFile file(outfile);
             file.open(QIODevice::WriteOnly | QIODevice::Append);
-            QTextStream out(&file);   // we will serialize the data into the file
+            QTextStream out(&file);
             for(int x=0;x<found.size();x++){
                 out << found.at(x) << "\n";
             }
@@ -95,19 +95,14 @@ void Run::run(){
         line = file.readLine();
     }
     file.close();
-    file.setFileName("output_cpp_12_sha1.txt");
+    file.setFileName(outfile);
     file.open(QIODevice::WriteOnly | QIODevice::Append);
-    QTextStream out(&file);   // we will serialize the data into the file
+    QTextStream out(&file);
     for(int x=0;x<found.size();x++){
         out << found.at(x) << "\n";
     }
     file.close();
     found.clear();
-
-    qDebug() << "Rebuilding left list and update tested plains...";
-    system("./rebuild");
-    /*system(QString("cat tested.txt " + checkfile + " > tested.txt.new").toStdString().c_str());
-    system("mv tested.txt.new tested.txt");*/
     qDebug() << "All done!";
     running = false;
     QCoreApplication::quit();
