@@ -9,7 +9,7 @@ Command line input:
 ./Cleaner wordlist.txt output.txt left.txt
 
 Important:
-* The wordlist should not be too big, the recommended size is ~10 million lines maximum. (It was possible to run 23mil on my server)
+* The wordlist should not be too big, the recommended size is ~10 million lines maximum. (It was possible to run 23mil on my server) EDIT: when using a 20million list there are about 8GB RAM used.
 * You need to provide all three file paths.
 
 ## Compiling
