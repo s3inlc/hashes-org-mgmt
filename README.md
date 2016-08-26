@@ -9,7 +9,3 @@ A tool used to get special hashes sorted out of the Hashes.org left list.
 ## MDXfind
 
 Containst scripts related to MDXfind and Hashes.org
-
-## MDXfind-GUI
-
-GUI program to use with MDXfind
